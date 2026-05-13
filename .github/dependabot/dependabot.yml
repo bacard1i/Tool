@@ -1,0 +1,29 @@
+version: 2
+updates:
+  # Python dependencies (main.py + requirements.txt)
+  - package-ecosystem: "pip"
+    directory: "/"
+    schedule:
+      interval: "daily"
+    open-pull-requests-limit: 10
+    reviewers:
+      - "bacard1i"           # ← Your username
+    labels:
+      - "dependencies"
+      - "pip"
+    security-updates:
+      enabled: true
+
+  # JavaScript dependencies (module.js and future package.json)
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "daily"
+    open-pull-requests-limit: 10
+    reviewers:
+      - "bacard1i"           # ← Your username
+    labels:
+      - "dependencies"
+      - "npm"
+    security-updates:
+      enabled: true

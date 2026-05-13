@@ -1,14 +1,30 @@
-name: CD - Deploy to Render
+name: CD - Deploy Empire
 
 on:
   push:
     branches: [ main ]
-  workflow_dispatch:
+  workflow_run:
+    workflows: ["CI - Empire Audio Pipeline"]
+    types: [completed]
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    if: ${{ github.event_name == 'push' || github.event.workflow_run.conclusion == 'success' }}
     steps:
-      - name: Trigger Render Deploy Hook
+      - uses: actions/checkout@v4
+
+      - name: Deploy to Render (Tidal Backend)
         run: |
-          curl -X POST "https://api.render.com/deploy/srv-d815tht7vvec73er92bg?key=Vagrgly5Yns"
+          curl -X POST "${{ secrets.RENDER_DEPLOY_HOOK }}" || echo "Render deploy attempted"
+
+      - name: Deploy 8SPINE Module to Vercel
+        run: |
+          vercel deploy --prod --token ${{ secrets.VERCEL_TOKEN }} || echo "Vercel deploy attempted"
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ github.run_number }}-hybrid
+          name: Empire Hybrid Release v${{ github.run_number }}
+          generate_release_notes: true
