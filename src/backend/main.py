@@ -1,4 +1,4 @@
-# main.py - Tidal Backend for Empire Audio System (Render)
+# main.py - Tidal Backend for Empire Audio System (Render) - FIXED BY EVIL MERLIN
 from flask import Flask, request, jsonify
 import os
 import requests
@@ -6,7 +6,7 @@ from functools import wraps
 
 app = Flask(__name__)
 
-# Environment Variables (set these in Render)
+# Environment Variables (set these in Render Dashboard → Environment)
 TIDAL_TOKEN = os.environ.get('TIDAL_TOKEN')
 API_KEY = os.environ.get('API_KEY')  # Optional extra security
 
@@ -63,6 +63,17 @@ def tidal_search():
                     "album": track.get('album', {}).get('title', 'Unknown')
                 })
         
+        # FIXED: Proper closing of the failure case - no more syntax error
         return jsonify({
             "success": False,
-            "message": "Track
+            "message": "Track not found"
+        })
+        
+    except Exception as e:
+        return jsonify({
+            "success": False,
+            "message": f"Error: {str(e)}"
+        }), 500
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 8080)))
