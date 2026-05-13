@@ -1,0 +1,22 @@
+{
+  "id": "4two-6",
+  "name": "4two-6",
+  "version": "4.1",
+  "author": "bacard1i",
+  "description": "Qobuz Direct (fastest playback) + Tidal Fallback + MD5 Integrity on both sources",
+  "file": "src/module.js",
+  "tags": [
+    "qobuz",
+    "tidal",
+    "hi-res",
+    "24bit",
+    "192khz",
+    "hybrid",
+    "md5",
+    "4two-6"
+  ],
+  "icon": "https://raw.githubusercontent.com/bacard1i/tool/main/icon.png",
+  "homepage": "https://github.com/bacard1i/tool",
+  "requires": [],
+  "permissions": []
+}
